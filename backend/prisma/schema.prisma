@@ -1,0 +1,57 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // URL do Supabase
+}
+
+model Family {
+  id        String   @id @default(uuid())
+  name      String   // Ex: "Família Silva" (Usado para a ordenação alfabética no front)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos (1:N)
+  members   Member[]
+  incomes   Income[]
+
+  @@map("families")
+}
+
+model Member {
+  id        String   @id @default(uuid())
+  name      String
+  role      Role     @default(OTHER) // PAI, MAE, BEBE, etc.
+  familyId  String
+  createdAt DateTime @default(now())
+
+  // Relacionamento com Família
+  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+
+  @@map("members")
+}
+
+model Income {
+  id          String   @id @default(uuid())
+  description String   // Ex: "Ensaio Newborn", "Sinal"
+  amount      Decimal  @db.Decimal(10, 2) // Usando Decimal para precisão financeira
+  date        DateTime @default(now())
+  familyId    String
+
+  // Relacionamento com Família
+  family      Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+
+  @@map("incomes")
+}
+
+enum Role {
+  FATHER
+  MOTHER
+  BABY
+  SIBLING
+  OTHER
+}
