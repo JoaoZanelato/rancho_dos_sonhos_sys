@@ -39,10 +39,13 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await fetch(`${API_URL}/families`);
+        const token = localStorage.getItem("rancho_token");
+        const response = await fetch(`${API_URL}/families`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
         if (response.ok) {
           const data = await response.json();
-
           const now = new Date();
           const currentMonth = now.getMonth();
           const currentYear = now.getFullYear();
@@ -53,7 +56,6 @@ const Dashboard = () => {
               familyName: family.name,
             })),
           );
-
           const sortedIncomes = allIncomes.sort(
             (a, b) => new Date(b.date) - new Date(a.date),
           );
@@ -86,12 +88,11 @@ const Dashboard = () => {
           });
         }
       } catch (error) {
-        console.error("Erro ao procurar dados do dashboard:", error);
+        console.error("Erro ao procurar dados:", error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchDashboardData();
   }, []);
 
@@ -114,9 +115,7 @@ const Dashboard = () => {
         </p>
       </div>
 
-      {/* BLOCO 1: Faturação (2 Quadros Grandes) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Card: Faturação do Mês - COR: Pôr do Sol (Orange) */}
         <div className="bg-white p-7 rounded-2xl shadow-sm border border-stone-200 flex items-center gap-5 relative overflow-hidden group hover:border-orange-200 transition-colors">
           <div className="absolute -right-6 -top-6 text-orange-100 opacity-40 group-hover:scale-110 transition-transform duration-300">
             <Calendar className="w-28 h-28" />
@@ -126,18 +125,14 @@ const Dashboard = () => {
           </div>
           <div className="relative z-10 flex-1 min-w-0">
             <p className="text-sm text-stone-500 font-medium truncate">
-              Faturamento do Mês
+              Faturação Deste Mês
             </p>
-            <p
-              className="text-2xl font-extrabold text-gray-950 truncate"
-              title={formatCurrency(stats.monthlyIncome)}
-            >
+            <p className="text-2xl font-extrabold text-gray-950 truncate">
               {formatCurrency(stats.monthlyIncome)}
             </p>
           </div>
         </div>
 
-        {/* Card: Faturação Total - COR: Dourado (Amber) */}
         <div className="bg-white p-7 rounded-2xl shadow-sm border border-stone-200 flex items-center gap-5 hover:border-amber-200 transition-colors">
           <div className="p-4 bg-amber-100 text-amber-700 rounded-xl shrink-0">
             <DollarSign className="w-7 h-7" />
@@ -146,37 +141,28 @@ const Dashboard = () => {
             <p className="text-sm text-stone-500 font-medium truncate">
               Total Acumulado
             </p>
-            <p
-              className="text-2xl font-extrabold text-gray-950 truncate"
-              title={formatCurrency(stats.totalIncome)}
-            >
+            <p className="text-2xl font-extrabold text-gray-950 truncate">
               {formatCurrency(stats.totalIncome)}
             </p>
           </div>
         </div>
       </div>
 
-      {/* BLOCO 2: Métricas de Clientes (2 Quadros Grandes) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Card: Ticket Médio - COR: Natureza Média (Emerald) */}
         <div className="bg-white p-7 rounded-2xl shadow-sm border border-stone-200 flex items-center gap-5 hover:border-emerald-200 transition-colors">
           <div className="p-4 bg-emerald-100 text-emerald-700 rounded-xl shrink-0">
             <TrendingUp className="w-7 h-7" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm text-stone-500 font-medium truncate">
-              Média por Contrato (Ticket Médio)
+              Média por Contrato
             </p>
-            <p
-              className="text-2xl font-extrabold text-gray-950 truncate"
-              title={formatCurrency(stats.averageTicket)}
-            >
+            <p className="text-2xl font-extrabold text-gray-950 truncate">
               {formatCurrency(stats.averageTicket)}
             </p>
           </div>
         </div>
 
-        {/* Card: Total de Famílias - COR: Cavalo/Terra (Yellow/Brown) */}
         <div className="bg-white p-7 rounded-2xl shadow-sm border border-stone-200 flex items-center gap-5 hover:border-yellow-300 transition-colors">
           <div className="p-4 bg-yellow-950 text-yellow-100 rounded-xl shrink-0">
             <Users className="w-7 h-7" />
@@ -185,27 +171,22 @@ const Dashboard = () => {
             <p className="text-sm text-stone-500 font-medium truncate">
               Famílias Felizes Atendidas
             </p>
-            <p
-              className="text-2xl font-extrabold text-gray-950 truncate"
-              title={stats.totalFamilies}
-            >
+            <p className="text-2xl font-extrabold text-gray-950 truncate">
               {stats.totalFamilies}
             </p>
           </div>
         </div>
       </div>
 
-      {/* BLOCO 3: Secção Inferior (Tabela de Entradas) */}
       <div className="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
         <div className="p-6 border-b border-stone-100 flex items-center justify-between bg-stone-50/50">
           <div className="flex items-center gap-3">
             <ReceiptText className="w-5 h-5 text-stone-500" />
             <h2 className="text-lg font-bold text-gray-800">
-              Fluxo de Caixa Recente (Últimos 5)
+              Fluxo de Caixa Recente
             </h2>
           </div>
         </div>
-
         <div className="p-0">
           {stats.recentIncomes.length > 0 ? (
             <div className="overflow-x-auto">
@@ -242,7 +223,7 @@ const Dashboard = () => {
               </table>
             </div>
           ) : (
-            <div className="p-10 text-center text-stone-500 border-t border-stone-100 border-dashed m-4 rounded-xl bg-stone-50">
+            <div className="p-10 text-center text-stone-500 bg-stone-50">
               <p>Nenhum pagamento registado ainda.</p>
             </div>
           )}

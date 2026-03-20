@@ -1,9 +1,15 @@
 import React from "react";
-import { Outlet, Link, useLocation } from "react-router-dom";
-import { Home, Users, PlusCircle, Camera } from "lucide-react";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+import { Home, Users, PlusCircle, Camera, LogOut } from "lucide-react";
 
 const Layout = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("rancho_token");
+    navigate("/login");
+  };
 
   const navItems = [
     { path: "/", label: "Visão Geral", icon: Home },
@@ -17,8 +23,6 @@ const Layout = () => {
         <div className="p-6 flex items-center gap-3 border-b border-emerald-800/50">
           <Camera className="w-9 h-9 text-amber-400" />
           <div className="flex flex-col">
-            {" "}
-            {/* BUG CORRIGIDO AQUI */}
             <h1 className="text-xl font-bold tracking-tight text-white">
               Rancho
             </h1>
@@ -47,8 +51,14 @@ const Layout = () => {
             );
           })}
         </nav>
-        <div className="p-4 border-t border-emerald-800/50 text-center text-xs text-stone-500">
-          © 2024 Estúdio Rancho dos Sonhos
+        <div className="p-4 border-t border-emerald-800/50">
+          <button
+            onClick={handleLogout}
+            className="flex items-center justify-center gap-2 w-full py-2.5 text-sm text-stone-400 hover:text-white hover:bg-emerald-900 rounded-lg transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            Sair do Sistema
+          </button>
         </div>
       </aside>
 
