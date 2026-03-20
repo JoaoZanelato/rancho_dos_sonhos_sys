@@ -104,7 +104,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
           Bem-vinda, Vanessa
@@ -114,8 +114,8 @@ const Dashboard = () => {
         </p>
       </div>
 
-      {/* Grid de Métricas Principais - CORES ATUALIZADAS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+      {/* BLOCO 1: Faturação (2 Quadros Grandes) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Card: Faturação do Mês - COR: Pôr do Sol (Orange) */}
         <div className="bg-white p-7 rounded-2xl shadow-sm border border-stone-200 flex items-center gap-5 relative overflow-hidden group hover:border-orange-200 transition-colors">
           <div className="absolute -right-6 -top-6 text-orange-100 opacity-40 group-hover:scale-110 transition-transform duration-300">
@@ -154,7 +154,10 @@ const Dashboard = () => {
             </p>
           </div>
         </div>
+      </div>
 
+      {/* BLOCO 2: Métricas de Clientes (2 Quadros Grandes) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Card: Ticket Médio - COR: Natureza Média (Emerald) */}
         <div className="bg-white p-7 rounded-2xl shadow-sm border border-stone-200 flex items-center gap-5 hover:border-emerald-200 transition-colors">
           <div className="p-4 bg-emerald-100 text-emerald-700 rounded-xl shrink-0">
@@ -162,7 +165,7 @@ const Dashboard = () => {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm text-stone-500 font-medium truncate">
-              Média por Contrato
+              Média por Contrato (Ticket Médio)
             </p>
             <p
               className="text-2xl font-extrabold text-gray-950 truncate"
@@ -180,7 +183,7 @@ const Dashboard = () => {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm text-stone-500 font-medium truncate">
-              Famílias Felizes
+              Famílias Felizes Atendidas
             </p>
             <p
               className="text-2xl font-extrabold text-gray-950 truncate"
@@ -192,18 +195,15 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Secção Inferior: Últimas Entradas - ESTILO MAIS ORGÂNICO */}
+      {/* BLOCO 3: Secção Inferior (Tabela de Entradas) */}
       <div className="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
         <div className="p-6 border-b border-stone-100 flex items-center justify-between bg-stone-50/50">
           <div className="flex items-center gap-3">
             <ReceiptText className="w-5 h-5 text-stone-500" />
             <h2 className="text-lg font-bold text-gray-800">
-              Fluxo de Caixa Recente (Últimas 5)
+              Fluxo de Caixa Recente (Últimos 5)
             </h2>
           </div>
-          <button className="text-sm text-orange-700 font-semibold hover:text-orange-800">
-            Ver tudo
-          </button>
         </div>
 
         <div className="p-0">
@@ -213,7 +213,7 @@ const Dashboard = () => {
                 <thead className="bg-stone-100 text-stone-600 font-semibold text-xs uppercase tracking-wider">
                   <tr>
                     <th className="px-6 py-4">Data</th>
-                    <th className="px-6 py-4">Cliente</th>
+                    <th className="px-6 py-4">Cliente / Família</th>
                     <th className="px-6 py-4">Descrição</th>
                     <th className="px-6 py-4 text-right">Valor</th>
                   </tr>
@@ -243,7 +243,7 @@ const Dashboard = () => {
             </div>
           ) : (
             <div className="p-10 text-center text-stone-500 border-t border-stone-100 border-dashed m-4 rounded-xl bg-stone-50">
-              <p>Nenhum pagamento registado este mês ainda.</p>
+              <p>Nenhum pagamento registado ainda.</p>
             </div>
           )}
         </div>

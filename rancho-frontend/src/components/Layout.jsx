@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { Home, Users, PlusCircle, Camera, DollarSign } from "lucide-react";
+import { Home, Users, PlusCircle, Camera } from "lucide-react";
 
 const Layout = () => {
   const location = useLocation();
@@ -9,19 +9,16 @@ const Layout = () => {
     { path: "/", label: "Visão Geral", icon: Home },
     { path: "/clientes", label: "Famílias", icon: Users },
     { path: "/clientes/novo", label: "Novo Cadastro", icon: PlusCircle },
-    { path: "/renda", label: "Lançar Pagamento", icon: DollarSign },
   ];
 
   return (
-    // MUDANÇA: Fundo geral agora é um bege pedra suave (bg-stone-100)
     <div className="flex h-screen bg-stone-100">
-      {/* Sidebar */}
-      // MUDANÇA: Sidebar agora é um verde floresta quase preto (bg-emerald-950)
       <aside className="w-64 bg-emerald-950 text-white flex flex-col shadow-xl">
         <div className="p-6 flex items-center gap-3 border-b border-emerald-800/50">
-          // MUDANÇA: Ícone e texto do logo com toque dourado (text-amber-400)
           <Camera className="w-9 h-9 text-amber-400" />
-          <div flex flex-col>
+          <div className="flex flex-col">
+            {" "}
+            {/* BUG CORRIGIDO AQUI */}
             <h1 className="text-xl font-bold tracking-tight text-white">
               Rancho
             </h1>
@@ -37,7 +34,6 @@ const Layout = () => {
                 key={item.path}
                 to={item.path}
                 className={`flex items-center gap-3.5 px-4 py-3 rounded-lg transition-all duration-200 ${
-                  // MUDANÇA: Item ativo usa fundo terracota suave (bg-orange-950/40) e borda dourada
                   isActive
                     ? "bg-orange-950/40 text-amber-300 font-semibold shadow-inner border-l-4 border-amber-400 -ml-1 pl-3"
                     : "text-stone-200 hover:bg-emerald-900 hover:text-white"
@@ -55,7 +51,7 @@ const Layout = () => {
           © 2024 Estúdio Rancho dos Sonhos
         </div>
       </aside>
-      {/* Main Content */}
+
       <main className="flex-1 overflow-y-auto">
         <div className="p-10">
           <Outlet />
