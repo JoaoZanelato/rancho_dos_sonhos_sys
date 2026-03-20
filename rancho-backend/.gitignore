@@ -1,0 +1,31 @@
+# Dependências do Node.js (Isso é o que está a causar a lentidão!)
+node_modules/
+
+# Ficheiros de Variáveis de Ambiente (NUNCA envie para o GitHub)
+.env
+.env.*
+!.env.example
+
+# Logs de erros do NPM/Yarn
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Builds e Pastas de Deploy
+dist/
+build/
+.vercel/
+
+# Prisma (Caso faça testes com banco local no futuro)
+*.db
+*.db-journal
+
+# Ficheiros de Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# Configurações de Editores de Código (VS Code, etc)
+.vscode/
+.idea/
