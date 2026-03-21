@@ -29,3 +29,5 @@ Thumbs.db
 # Configurações de Editores de Código (VS Code, etc)
 .vscode/
 .idea/
+.vercel
+.env*.local
